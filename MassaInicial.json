@@ -1,0 +1,25 @@
+[
+    {
+        "title": "ateixeira",
+        "firstName": "Adrian",
+        "lastName": "Teixeira",
+        "email": "adrian.teixeira@faeterj-petropolis.edu.br",
+        "password": "ateixeiraPass",
+        "confirmPassword": "ateixeiraPass"
+    },
+    {
+        "title": "tcaliman",
+        "firstName": "Titango",
+        "lastName": "Caliman",
+        "email": "titango.Caliman@faeterj-petropolis.edu.br",
+        "password": "tcalimanPass",
+        "confirmPassword": "tcalimanPass"
+    },{
+        "title": "chessman",
+        "firstName": "Chessman",
+        "lastName": "Oliveira",
+        "email": "chessman.oliveira@faeterj-petropolis.edu.br",
+        "password": "chessmanPass",
+        "confirmPassword": "chessmanPass"
+    }
+]
