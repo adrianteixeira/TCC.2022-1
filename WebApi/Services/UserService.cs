@@ -14,8 +14,8 @@ public interface IUserService
 {
     IEnumerable<User> GetAll();
     User GetById(int id);
-    void Create(CreateRequest model);
-    void Update(int id, UpdateRequest model);
+    User Create(CreateRequest model);
+    User Update(int id, UpdateRequest model);
     void Delete(int id);
 }
 
@@ -24,28 +24,29 @@ public class UserService : IUserService
     private DataContext _context;
     private readonly IMapper _mapper;
 
-    private readonly IUrlHelper _urlHelper;
     public UserService(
         DataContext context,
-        IMapper mapper,
-        IUrlHelper urlHelper)
+        IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
-        
-        _urlHelper = urlHelper;
-        _context.Users.AddRange(JsonConvert.DeserializeObject<List<User>>(
-            File.ReadAllText(@"MassaInicial.json"
-        )));
-        _context.SaveChanges();
+
+
+        JsonSerializerSettings ser = new JsonSerializerSettings
+        {
+            DefaultValueHandling = DefaultValueHandling.Ignore
+        };
+        if (!_context.Users.Any())
+        {
+            _context.Users.AddRange(JsonConvert.DeserializeObject<List<User>>(
+                File.ReadAllText(@"MassaInicial.json"
+            ), ser));
+            _context.SaveChanges();
+        }
     }
 
     public IEnumerable<User> GetAll()
     {
-        foreach (var user in _context.Users)
-        {
-            GerarLinks(user);
-        }
         return _context.Users;
     }
 
@@ -54,7 +55,7 @@ public class UserService : IUserService
         return getUser(id);
     }
 
-    public void Create(CreateRequest model)
+    public User Create(CreateRequest model)
     {
         // validate
         if (_context.Users.Any(x => x.Email == model.Email))
@@ -69,9 +70,10 @@ public class UserService : IUserService
         // save user
         _context.Users.Add(user);
         _context.SaveChanges();
+        return user;
     }
 
-    public void Update(int id, UpdateRequest model)
+    public User Update(int id, UpdateRequest model)
     {
         var user = getUser(id);
 
@@ -87,6 +89,7 @@ public class UserService : IUserService
         _mapper.Map(model, user);
         _context.Users.Update(user);
         _context.SaveChanges();
+        return user;
     }
 
     public void Delete(int id)
@@ -104,14 +107,4 @@ public class UserService : IUserService
         if (user == null) throw new KeyNotFoundException("User not found");
         return user;
     }
-
-    private void GerarLinks(User user)
-        {
-            // Console.WriteLine(_urlHelper.Link(nameof(GetById), new { id = user.Id }));
-            user.Links.Add(new LinkDTO("teste12", rel: "self", metodo: "GET"));
-            user.Links.Add(new LinkDTO(_urlHelper.Link(nameof(Update), new { id = user.Id }), rel: "update-user", metodo: "PUT"));
-            user.Links.Add(new LinkDTO(_urlHelper.Link(nameof(Delete), new { id = user.Id }), rel: "delete-user", metodo: "DELETE"));
-            // _context.SaveChanges();
-        }
-
 }

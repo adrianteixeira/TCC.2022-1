@@ -27,7 +27,7 @@ var builder = WebApplication.CreateBuilder(args);
     // configure DI for application services
     services.AddScoped<IUserService, UserService>();
     services.AddSingleton<IActionContextAccessor, ActionContextAccessor>()
-                    .AddSingleton<IUrlHelper>(x => x.GetRequiredService<IUrlHelperFactory>()
+                    .AddScoped<IUrlHelper>(x => x.GetRequiredService<IUrlHelperFactory>()
                     .GetUrlHelper(x.GetRequiredService<IActionContextAccessor>().ActionContext));
     services.AddSwaggerGen();
 }
