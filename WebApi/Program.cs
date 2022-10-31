@@ -25,13 +25,14 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
     // configure DI for application services
-    services.AddSingleton<IUserService, UserService>();
+    services.AddScoped<IUserService, UserService>();
     services.AddSingleton<IActionContextAccessor, ActionContextAccessor>()
                     .AddSingleton<IUrlHelper>(x => x.GetRequiredService<IUrlHelperFactory>()
                     .GetUrlHelper(x.GetRequiredService<IActionContextAccessor>().ActionContext));
     services.AddSwaggerGen();
 }
 
+builder.WebHost.ConfigureKestrel(options => options.ListenLocalhost(4000));
 var app = builder.Build();
 
 // configure HTTP request pipeline
@@ -53,4 +54,4 @@ var app = builder.Build();
     // app.UseMvc();
 }
 
-app.Run("http://localhost:4000");
+app.Run();
