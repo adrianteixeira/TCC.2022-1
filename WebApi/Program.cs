@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using WebApi.Helpers;
 using WebApi.Services;
+using WebApi.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,7 @@ var builder = WebApplication.CreateBuilder(args);
                     .AddScoped<IUrlHelper>(x => x.GetRequiredService<IUrlHelperFactory>()
                     .GetUrlHelper(x.GetRequiredService<IActionContextAccessor>().ActionContext));
     services.AddSwaggerGen();
+    services.AddSingleton<IRedisService, RedisService>();
 }
 
 builder.WebHost.ConfigureKestrel(options => options.ListenLocalhost(4000));

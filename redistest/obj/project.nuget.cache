@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "YrTeecLbnFTLIWKey8wi3zl48xnwPyZzZr5U9RUMD2hDblteEybvStBwmFHZTSDMy0/Bwi/EDB2nOY2kYAQ98A==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\PC\\source\\repos\\adrianteixeira\\TCC.2022-1\\redistest\\redistest.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\PC\\.nuget\\packages\\pipelines.sockets.unofficial\\2.2.2\\pipelines.sockets.unofficial.2.2.2.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\stackexchange.redis\\2.6.80\\stackexchange.redis.2.6.80.nupkg.sha512",
+    "C:\\Users\\PC\\.nuget\\packages\\system.io.pipelines\\5.0.1\\system.io.pipelines.5.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

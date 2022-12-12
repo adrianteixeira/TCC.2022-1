@@ -4,11 +4,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="11.0.1"/>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0"/>
-    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.3"/>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta2"/>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.3" />
+    <PackageReference Include="StackExchange.Redis" Version="2.6.80" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta2" />
   </ItemGroup>
 </Project>

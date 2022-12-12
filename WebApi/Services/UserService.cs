@@ -9,6 +9,7 @@ using WebApi.Entities;
 using WebApi.Helpers;
 using WebApi.Models;
 using WebApi.Models.Users;
+using WebApi.Services.Interface;
 
 public interface IUserService
 {
@@ -23,19 +24,22 @@ public class UserService : IUserService
 {
     private DataContext _context;
     private readonly IMapper _mapper;
-
+    private readonly IRedisService _redisService;
     public UserService(
         DataContext context,
-        IMapper mapper)
+        IMapper mapper,
+        IRedisService redisService)
     {
         _context = context;
         _mapper = mapper;
+        _redisService = redisService;
 
-
+        //_redisService.Clear();
         JsonSerializerSettings ser = new JsonSerializerSettings
         {
             DefaultValueHandling = DefaultValueHandling.Ignore
         };
+
         if (!_context.Users.Any())
         {
             _context.Users.AddRange(JsonConvert.DeserializeObject<List<User>>(
@@ -52,7 +56,21 @@ public class UserService : IUserService
 
     public User GetById(int id)
     {
-        return getUser(id);
+        var user = _redisService.ReadData(id);
+
+        if (user != null)
+        {
+            return user;
+        }
+        else
+        {
+            user = getUser(id);
+            if (user != null)
+            {
+                _redisService.SaveData(user);
+            }
+            return user;
+        }
     }
 
     public User Create(CreateRequest model)
@@ -70,6 +88,7 @@ public class UserService : IUserService
         // save user
         _context.Users.Add(user);
         _context.SaveChanges();
+        _redisService.SaveData(user);
         return user;
     }
 
@@ -89,6 +108,7 @@ public class UserService : IUserService
         _mapper.Map(model, user);
         _context.Users.Update(user);
         _context.SaveChanges();
+        _redisService.UpdateData(user);
         return user;
     }
 
@@ -97,14 +117,19 @@ public class UserService : IUserService
         var user = getUser(id);
         _context.Users.Remove(user);
         _context.SaveChanges();
+        _redisService.RemoveData(id);
     }
 
-    // helper methods
+
+
+    #region HelperMethods
 
     private User getUser(int id)
     {
         var user = _context.Users.Find(id);
-        if (user == null) throw new KeyNotFoundException("User not found");
+        //if (user == null) throw new KeyNotFoundException("User not found");
         return user;
     }
+
+    #endregion
 }
